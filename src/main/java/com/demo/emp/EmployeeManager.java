@@ -2,7 +2,7 @@ package com.demo.emp;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -40,7 +40,7 @@ public class EmployeeManager {
 
 	}
 
-	public String addEmployee(Employee employee) {
+	public Employees addEmployee(Employee employee) {
 		String emprslt;
 		Employees emp = new Employees();
 		List<Employee> employee1 = new ArrayList<Employee>();
@@ -55,8 +55,53 @@ public class EmployeeManager {
 			emprslt = "not added";
 
 		}
-		return emprslt;
+		return emp;
 
 	}
 
-}
+	public Employees updateEmployee(Integer id,  Employee updateemployee) {
+		Employees employees = new Employees();
+		Employee employee1 = new Employee();
+		
+		List<Employee> updatedEmpDetails = new ArrayList<Employee>();
+		updatedEmpDetails.add(updateemployee);
+		Optional<Employee> employeedetailsbyId = err.findById(id);
+		if(!employeedetailsbyId.isEmpty()) {
+		employee1 =employeedetailsbyId.get();
+		employee1.setFirst_name(updateemployee.getFirst_name());
+		employee1.setLast_name(updateemployee.getLast_name());
+		employee1.setGmail(updateemployee.getGmail());
+		employee1.setTitle(updateemployee.getTitle());
+		
+		err.save(employee1);
+		employees.setEmployeeList(updatedEmpDetails);
+
+		//return "updated";
+	
+	}else {
+		employees.setStatus("notUpdated");
+	}
+		return employees;
+	}
+	
+ 
+	public Employees deleteEmployeeDetails(Integer id) {
+		Employees employees = new Employees();
+		Employee employee1 = new Employee();
+		 List<Employee> employeedetails = new ArrayList<Employee>();
+		//err.deleteAllById(id);
+	//	employeedetails =err.findAll();
+	//	employeedetails.removeIf(de -> de.getEmployee_id().equals(id));
+		err.deleteById(id);
+		employeedetails =err.findAll();
+		err.saveAll(employeedetails);
+		employees.setEmployeeList(employeedetails);
+        
+		return employees;
+
+	
+	}
+
+	
+	
+	}

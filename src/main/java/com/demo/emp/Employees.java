@@ -6,6 +6,15 @@ import java.util.function.IntPredicate;
 public class Employees {
 
 	private List<Employee> employeeList;
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public List<Employee> getEmployeeList() {
 		return employeeList;
